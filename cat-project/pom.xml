@@ -195,6 +195,12 @@
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
         </dependency>
+<dependency>
+    <groupId>org.elasticsearch</groupId>
+    <artifactId>elasticsearch</artifactId>
+    <version>1.7.2</version>
+</dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -244,6 +250,7 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
+            
         </plugins>
     </build>
 </project>
