@@ -37,23 +37,23 @@ import java.util.ListIterator;
  * @author Alberto
  */
 
-public class indexation {
+public class Index_doc {
     public static void main(String[] args){
 
      //creation d'un tableau d'obj
     	 
     	 
     	 
-    	 ArrayList <enregistrement> arr = new ArrayList<enregistrement>();
-    	 enregistrement eng;
-    	 eng = new enregistrement("Elasticsearch PHP",
+    	 ArrayList <Insert_doc> arr = new ArrayList<Insert_doc>();
+    	 Insert_doc eng;
+    	 eng = new Insert_doc("Elasticsearch PHP",
                  "Get started with the documentation for Elasticsearch, Kibana, Logstash, Beats, X-Pack, Elastic Cloud, Elasticsearch for Apache Hadoop, and our language clients.",
                  "https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/index.html",
                  "This is the official PHP client for Elasticsearch. It is designed to be a very low-level client that does not stray from the REST API."
                 ); 
     	 
-    	 enregistrement eng2;
-    	 eng2 = new enregistrement("Framework Symfony PHP",
+    	 Insert_doc eng2;
+    	 eng2 = new Insert_doc("Framework Symfony PHP",
                  "Symfony est un framework MVC libre écrit en PHP (compatible avec PHP 7). Il fournit des fonctionnalités modulables et adaptables qui permettent de faciliter et d’accélérer le développement d'un site web.",
                  "https://fr.wikipedia.org/wiki/Symfony",
                  "L'agence web française SensioLabs est à l'origine du framework Sensio Framework3. À force de toujours recréer les mêmes fonctionnalités de gestion d'utilisateurs, gestion ORM, etc., elle a développé ce framework pour ses propres besoins. Comme ces problématiques étaient souvent les mêmes pour d'autres développeurs, le code a été par la suite partagé avec la communauté des développeurs PHP."
@@ -81,7 +81,7 @@ public class indexation {
      
       System.out.println("Documents indexés");
       
-      filtrage filtre = new filtrage();
+      Handling filtre = new Handling();
       filtre.filtrage();
       
     }

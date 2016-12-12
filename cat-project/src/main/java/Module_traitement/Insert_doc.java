@@ -1,12 +1,12 @@
 package Module_traitement;
 
-public class enregistrement {
+public class Insert_doc {
 	String titre;
 	String description;
 	String url;
 	String contenu;
 	
-	public  enregistrement (String t, String d, String l, String c)
+	public  Insert_doc (String t, String d, String l, String c)
 	{
 		System.out.println("Creation de l'objet lien");
 		titre=t;

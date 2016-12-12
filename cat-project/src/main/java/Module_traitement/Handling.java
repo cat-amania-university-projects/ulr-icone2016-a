@@ -29,7 +29,7 @@ import com.mongodb.DBObject;
 import java.io.IOException;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
-public class filtrage {
+public class Handling {
     
 
      public void filtrage(){
@@ -42,8 +42,8 @@ public class filtrage {
                 .setQuery(QueryBuilders.multiMatchQuery(mot_cle, "titre", "description","code_source" ))
                 .execute()
                 .actionGet();
-        String json="";
-        Stockage stock =new Stockage();
+        String json = "";
+        Store_db stock =new Store_db();
         for(SearchHit hit : response.getHits())
         {
         	//System.out.println(hit.getScore()+", "+hit.getSource().get("titre"));

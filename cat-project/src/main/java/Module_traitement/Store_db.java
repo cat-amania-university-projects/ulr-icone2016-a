@@ -11,10 +11,10 @@ import com.mongodb.MongoClient;
 
 
 
-public class Stockage {
+public class Store_db {
 	 private DB db;
 	    
-	    public Stockage()
+	    public Store_db()
 	    {
 	         // Connexion a la base de donnee
 	        MongoClient mongoClient = null;
