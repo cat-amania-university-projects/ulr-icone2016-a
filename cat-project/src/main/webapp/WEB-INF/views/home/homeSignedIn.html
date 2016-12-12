@@ -17,11 +17,11 @@
         <div th:replace="fragments/components :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
     </th:block>
     <p class="lead text-center">
-        Welcome to the Spring MVC Quickstart application!
+        Bienvenue sur le prototype du projet !
     </p>
     <p class="lead text-center">
-    <form action="search" method="get">
-    	Votre recherche : <input type="text" name="searchPhrase"><br>
+    <form class="form-narrow form-horizontal" action="#" th:action="@{/search}" method="post">
+    	Votre recherche : <input type="text" name="searchPhrase" th:value="${searchPhrase}"><br>
     	<br>
 		<input type="submit" value="Lancer les calculs">
     </form>
