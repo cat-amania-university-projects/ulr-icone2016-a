@@ -14,7 +14,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Demo project</a>
+            <a class="navbar-brand" href="#"><img src="../../../resources/images/logo.png" style="width: 170px;margin-top: -15px;"/></a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -24,7 +24,20 @@
                 <li th:classappend="${module == 'about' ? 'active' : ''}">
                     <a href="#about" th:href="@{/about}">About</a>
                 </li>
-            </ul>
+           </ul>
+<form class="navbar-form navbar-left hidden barSearch" role="search"action="#" th:action="@{/search}" method="post" style="margin-left: 150px;">
+  <div class="form-group" style="width:400px;">
+   <div class="row">
+	   <div class="col-lg-10">
+		   	<div class="input-group" style="width:100%;">
+		   	 <input style="width:100%;" type="text" class="form-control" name="searchPhrase" placeholder="Search" th:value="${searchPhrase}">
+		   	 <span class="input-group-btn"><button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search "></i></button></span>
+		   	</div>
+	   </div>
+   </div>
+  </div>
+  
+</form>
             <ul class="nav navbar-nav navbar-right">
                 <li th:if="${#authorization.expression('!isAuthenticated()')}">
                     <a href="/signin" th:href="@{/signin}">
@@ -38,13 +51,14 @@
                     <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
                 </li>
             </ul>
+            
         </div>
         <!--/.nav-collapse -->
     </div>
 </div>
 
 <!-- Footer -->
-<div th:fragment="footer" th:align="center">
+<div th:fragment="footer" th:align="center" style="margin-top:20%;">
     &copy;&nbsp;<span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2016</span>
     UNIVERSITE DE LA ROCHELLE - Master ICONE 1 - Cat-Amania Project - Version <span th:text="${@environment.getProperty('app.version')}"></span>
 </div>

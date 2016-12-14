@@ -1,7 +1,12 @@
 package fr.univlr.incone2016.home;
+import  Module_traitement.Startpage;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.elasticsearch.ElasticsearchException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,12 +15,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import Exploitation.Connexion;
+import Exploitation.ObjetResultat;
+import Module_traitement.IndexDoc;
+import Module_traitement.Link;
+import Module_traitement.Startpage;
+
+
 @Controller
 class HomeController {
 
 	private static final String SEARCH_VIEW_NAME = "home/homeSearch";
 	private String searchPhrase;
-
+	List<ObjetResultat> listResultat = new ArrayList<ObjetResultat>();
 	@ModelAttribute("module")
 	String module() {
 		return "home";
@@ -23,19 +35,37 @@ class HomeController {
 
 	@GetMapping("/")
 	String index(Model model, Principal principal) {
-		this.searchPhrase = "Votre recherche";
+		this.searchPhrase = "";
 		model.addAttribute("searchPhrase", searchPhrase);
 		return principal != null ? "home/homeSignedIn" : "home/homeNotSignedIn";
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	String search(@ModelAttribute("searchPhrase") String searchPhrase, BindingResult result, Model model) {
+		
 		// Appels de services pour traiter la requete
 		// @@@
 		// Injecter les résultats pour la vue (sous forme d'objets)
+		
+		
 		this.searchPhrase = searchPhrase;
-		model.addAttribute("searchPhrase", searchPhrase);
-		System.out.println("Recherche : " + searchPhrase);
+		Startpage startpage=new Startpage();
+	    ArrayList<Link> arr=startpage.getResult(searchPhrase); // le mot cle rentre est "php"
+	   
+	    IndexDoc doc= new IndexDoc();
+	    try {
+			doc.recovery(searchPhrase,arr);
+		} catch (ElasticsearchException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Connexion con=new Connexion();
+		con.connecter();
+		listResultat = con.getInformation(searchPhrase);
+		//model.addAttribute("searchPhrase", searchPhrase);
+		model.addAttribute("liste", listResultat);
+		
 		return SEARCH_VIEW_NAME;
 	}
 
