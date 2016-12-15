@@ -81,7 +81,7 @@ public class Handling {
         	Object o = com.mongodb.util.JSON.parse(json);
             DBObject dbObj = (DBObject) o;
             
-            stock.update(hit.getSource().get("description"),"recherche",(DBObject) dbObj);
+            stock.insertion("recherche",dbObj);
         	 System.out.println(json);
         }
         

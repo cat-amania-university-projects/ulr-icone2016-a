@@ -1,6 +1,7 @@
 package Module_traitement;
 
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 
@@ -11,41 +12,53 @@ import com.mongodb.MongoClient;
 
 
 
-public class Store_db {
+public class StoreDB {
 	 private DB db;
-	    
-	    public Store_db()
+	 public MongoClient mongoClient = null;
+	    public StoreDB()
 	    {
 	         // Connexion a la base de donnee
-	        MongoClient mongoClient = null;
-	       
-	       
-	            mongoClient = new MongoClient( "localhost" , 27017 );
-	       
-	       
+	         
+	        mongoClient = new MongoClient( "localhost" , 27017 );
 	        db = mongoClient.getDB( "testbd" ); // Declaration de la base donnée
 	        
 	        // Fin connexion        
 	    }
 	    
 	    
-	     // Medthode de récupération des données d'une collection
-	    /*public List<DBObject> selection(String name_collection)
-	    {
-	        DBCollection collection = db.getCollection(name_collection); 
-	        List<DBObject> lst= collection.find().toArray(); // Stocker toutes les resultats dans une liste
-	        return lst; // retourne une liste d'enregistrement de la collection indiquée
-	    }*/
-	    
-	    // Methode "insertion" prend en paramètre la collection et l'objet document a inseré
 	    public void insertion(String name_collection,DBObject docObject)
 	    {
 	        DBCollection collection = db.getCollection(name_collection); 
+	        
 	        collection.insert(docObject);
-	        System.out.println("Insertion reuissi !");
+	        System.out.println("Insertion reuissie !");
 	    }
 	    
 	    //  Methode "update"
 	    
+	  /*  public void update(Object url,String name_collection,DBObject docObject)
+	    {
+	        DBCollection collection = db.getCollection(name_collection); 
+        	BasicDBObject updateDocument = new BasicDBObject();
+ 	  	    updateDocument.append("$set", docObject);
+ 	  	    BasicDBObject searchQuery2 = new BasicDBObject().append("url", url);
+ 	  	    collection.update(searchQuery2, updateDocument);
+ 	        System.out.println("Mise à jour reuissie !");
+	        
+	    }*/
+	  /*  public void request(Object url,String name_collection,DBObject docObject)
+	    {
+	        DBCollection collection = db.getCollection(name_collection); 
+	        BasicDBObject whereQuery = new BasicDBObject();
+	        whereQuery.put("url", url);
+	        if(collection.find(whereQuery)!=null){
+	        	update(url,name_collection,docObject);
+	        }else{
+	        	insertion(name_collection, docObject);
+	        }
+	        
+	        mongoClient.close();
+	    }
+	    */
 }
 

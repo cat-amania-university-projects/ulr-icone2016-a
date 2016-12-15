@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import Exploitation.Connexion;
 import Exploitation.ObjetResultat;
+import Module_traitement.Collector;
 import Module_traitement.IndexDoc;
 import Module_traitement.Link;
 import Module_traitement.Startpage;
@@ -49,8 +50,16 @@ class HomeController {
 		
 		
 		this.searchPhrase = searchPhrase;
-		Startpage startpage=new Startpage();
-	    ArrayList<Link> arr=startpage.getResult(searchPhrase); // le mot cle rentre est "php"
+		Collector collector = null;
+		try {
+			collector = new Collector(searchPhrase);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		//Startpage startpage=new Startpage();
+	    ArrayList<Link> arr = null;
+		arr = collector.getLinklistglob();
 	   
 	    IndexDoc doc= new IndexDoc();
 	    try {
