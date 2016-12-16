@@ -1,12 +1,6 @@
 package Module_traitement;
 
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -44,23 +38,24 @@ public class Startpage extends Engine {
 	}
 
 	@Override
-	public ArrayList<Link> getResult(String query) throws IOException {
+	ArrayList<Link> getResult(String query) throws IOException {
 		int i = 0;
 		this.connexion(query);
 		// Elements links = this.document.select("div[class=result]");
 		Elements links = this.document.select("ol.web_regular_results > li > div.result ");
-
-		for (Element link : links) {
-
-			String urlstring = link.select("a").first().attr("href");
-			String title = link.select("span").first().text();
-			String description = link.select("p.desc.clk").first().text();
-
-			this.saveLinksDescTitle(urlstring, title, description, i);
-
-			i++;
-
+		if(links != null){
+			for (Element link : links) {
+				String urlstring = link.select("a").first().attr("href");
+				String title = link.select("span").first().text();
+				String description = link.select("p.desc.clk").first().text();
+				this.saveLinksDescTitle(urlstring, title, description, i);
+				i++;
+			}
 		}
+
+
+		//System.out.println("taille de la liste startpage : "+this.linklist.size());
+
 
 		return this.linklist;
 

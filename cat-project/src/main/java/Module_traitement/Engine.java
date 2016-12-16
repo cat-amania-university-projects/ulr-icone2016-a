@@ -25,93 +25,87 @@ import org.jsoup.nodes.Node;
 abstract class Engine {
 
 
-    
-  protected Document document;
-  protected XPath xpath;
-  protected Node node;
-  protected String name;
-  protected HashMap<Link, ArrayList<String>> map;
-  protected ArrayList<Link> linklist= new ArrayList<>();
-  protected String link;
-  protected String title;
-    public String getLink() {
-        return link;
-    }
 
-    public String getTitle() {
-        return title;
-    }
+	protected Document document;
+	protected XPath xpath;
+	protected Node node;
+	protected String name;
+	protected HashMap<Link, ArrayList<String>> map;
+	protected ArrayList<Link> linklist = new ArrayList<>();
+	protected String link;
+	protected String title;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public String getLink() {
+		return link;
+	}
 
-    public void setLink(String link) {
-        this.link = link;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setLink(String link) {
+		this.link = link;
+	}
 
-    public ArrayList<Link> getLinklist() {
-        return linklist;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setLinklist(ArrayList<Link> linklist) {
-        this.linklist = linklist;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public HashMap getMap() {
-        return map;
-    }
+	public ArrayList<Link> getLinklist() {
+		return linklist;
+	}
 
-    public void setMap(HashMap map) {
-        this.map = map;
-    }
-     public Document getDocument() {
-        return document;
-    }
+	public void setLinklist(ArrayList<Link> linklist) {
+		this.linklist = linklist;
+	}
 
-    public void setDocument(Document document) {
-        this.document = document;
-    }
-    protected void saveLinksDescTitle(String lien,String title,String desc,int i){
-     
-     Link url=new Link(lien);
-     url.setUrlString(lien);
-     
-     url.setTitle(title);
-     url.setDesc(desc);
-     
-     /* ici on enregistre le lien Lien cr�� precedemment*/
-    
-     this.linklist.add(i,url);
-     
-    }
-    protected void printHashMapContent(){
+	public HashMap getMap() {
+		return map;
+	}
+
+	public void setMap(HashMap map) {
+		this.map = map;
+	}
+
+	public Document getDocument() {
+		return document;
+	}
+
+	public void setDocument(Document document) {
+		this.document = document;
+	}
+
+	protected void saveLinksDescTitle(String lien, String title, String desc, int i) {
+
+		Link url = new Link(lien);
+		url.setUrlString(lien);
+
+		url.setTitle(title);
+		url.setDesc(desc);
+
+		/* ici on enregistre le lien Lien créé precedemment */
+
+		this.linklist.add(i, url);
+
+	}
+
+	protected void printHashMapContent() {
 		for (HashMap.Entry entry : map.entrySet()) {
-			   System.out.println(entry.getKey() + " \t" + entry.getValue());
-			}
+			System.out.println(entry.getKey() + " \t" + entry.getValue());
+		}
 	}
-     protected void printLinkListContent() throws IOException{
-		for (int i=0; i<this.linklist.size();i++)
-	{
-		String lien =  linklist.get(i).getUrlString();
-		String titre= linklist.get(i).getTitle();
-                String desc= linklist.get(i).getDesc();
-                //String contenu=linklist.get(i).getContent();
-                String contenu = "vide";
-                    //System.out.println(lien+"==> Titre: "+titre+" \tDescription: "+desc+"\tcontenu: "+contenu+"\n");   
-        }
-	}
-     
-  abstract void connexion(String query); // cette methode permet d'etablir une connexion avec un moteur de recherche
-  abstract ArrayList getResult(String query) throws IOException;
 
-        
+	abstract void connexion(String query); // cette methode permet d'etablir une
+											// connexion avec un moteur de
+											// recherche
+
+	abstract ArrayList getResult(String query) throws IOException;
 }

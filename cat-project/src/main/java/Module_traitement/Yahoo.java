@@ -1,11 +1,8 @@
 package Module_traitement;
 
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+ 
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -48,19 +45,23 @@ public class Yahoo extends Engine {
 		int i = 0;
 		this.connexion(query);
 		Element results = this.document.select("div#main").first();
+		
+		if(results != null){
+			results = results.select("ol").first();
+			Elements links = results.select("li[id]");
 
-		results = results.select("ol").first();
-		Elements links = results.select("li[id]");
+			for (Element link : links) {
+				Element elt = link.select("h3 > a").first();
+				String title = elt.text();
+				String url = elt.attr("href");
+				String description = link.select("div.compText.aAbs").text();
 
-		for (Element link : links) {
-			Element elt = link.select("h3 > a").first();
-			String title = elt.text();
-			String url = elt.attr("href");
-			String description = link.select("div.compText.aAbs").text();
-
-			this.saveLinksDescTitle(url, title, description, i);
-			i++;
+				this.saveLinksDescTitle(url, title, description, i);
+				i++;
+			}
 		}
+
+		//System.out.println("taille de la liste yahoo : "+this.linklist.size());
 
 		return this.linklist;
 
@@ -80,3 +81,4 @@ public class Yahoo extends Engine {
 	}
 
 }
+

@@ -7,15 +7,20 @@ import java.io.InputStreamReader;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import java.util.ArrayList;
+
+import org.apache.lucene.util.automaton.RegExp;
 import org.elasticsearch.action.search.*;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.mongodb.DBObject;
 public class Handling {
 	
-	public void filter(String mot_cle){
+	public void filter(String mot_cle) throws JSONException{
        
         Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", "elasticsearch").build();
         TransportClient client = new TransportClient(settings).addTransportAddress(new InetSocketTransportAddress("127.0.0.1", 9300));
@@ -57,17 +62,24 @@ public class Handling {
         	String nom_concurrent="";
 	        	for(int i=0; i<concurrent.size(); i++)
 	        	{
-	        		String src=hit.getSource().get("code_source").toString(); // Recuperation du code source 
+	        		String src=hit.getSource().get("description").toString(); // Recuperation du code source 
 	            	found = src.contains(concurrent.get(i).toString()); // verifier si un concurrent existe dans le code source
 	        
 	            	if(found) // Si oui on declare son nom
 	            	{
-	            		nom_concurrent=nom_concurrent+", "+concurrent.get(i).toString();
+	            		nom_concurrent=nom_concurrent+" "+concurrent.get(i).toString();
 	            	}
 	        	}
+	        	
+	        	
+	        	String desc= (String)hit.getSource().get("description");
+	        	String d=desc.replaceAll("\"", "").replaceAll("\'", "");
+	        	//System.out.println(d);
+	        	Object description=(Object) d;
+	        	
         	json="{\n" +
         			"	 \"titre\":\""+hit.getSource().get("titre")+"\",\n" +
-        			"	 \"description\":\""+hit.getSource().get("description")+"\",\n" +
+        			"	 \"description\":\""+description+"\",\n" +
         			"	 \"url\":\""+hit.getSource().get("url")+"\",\n" ;
         			if(nom_concurrent!=""){
         				json+="\"concurrent\":\""+nom_concurrent+"\",\n";
@@ -79,12 +91,10 @@ public class Handling {
         				json+="	 \"mot_cle\":\""+mot_cle+"\"\n" +
         			"}";
         	Object o = com.mongodb.util.JSON.parse(json);
-            DBObject dbObj = (DBObject) o;
-            
-            stock.insertion("recherche",dbObj);
-        	 System.out.println(json);
-        }
-        
+            DBObject dbObj = (DBObject)o;
+            stock.updateORinsert(dbObj);
+        	System.out.println(json);
+        }      
                 
      }
          

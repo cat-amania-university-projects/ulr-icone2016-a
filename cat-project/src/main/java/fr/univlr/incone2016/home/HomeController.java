@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.elasticsearch.ElasticsearchException;
+import org.json.JSONException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,7 +43,7 @@ class HomeController {
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	String search(@ModelAttribute("searchPhrase") String searchPhrase, BindingResult result, Model model) {
+	String search(@ModelAttribute("searchPhrase") String searchPhrase, BindingResult result, Model model) throws ElasticsearchException, IOException, JSONException {
 		
 		// Appels de services pour traiter la requete
 		// @@@
@@ -58,18 +59,14 @@ class HomeController {
 			e1.printStackTrace();
 		}
 		//Startpage startpage=new Startpage();
-	    ArrayList<Link> arr = null;
-		arr = collector.getLinklistglob();
-	   
+	    ArrayList<Link> arr = collector.getLinklistglob();
+		//arr = collector.getLinklistglob();
+	  
 	    IndexDoc doc= new IndexDoc();
-	    try {
-			doc.recovery(searchPhrase,arr);
-		} catch (ElasticsearchException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Connexion con=new Connexion();
+	    doc.recovery(searchPhrase,arr);
+	    
+		
+	    Connexion con=new Connexion();
 		con.connecter();
 		listResultat = con.getInformation(searchPhrase);
 		//model.addAttribute("searchPhrase", searchPhrase);

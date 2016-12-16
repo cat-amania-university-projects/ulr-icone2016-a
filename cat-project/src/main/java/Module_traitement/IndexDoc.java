@@ -7,6 +7,8 @@ package Module_traitement;
 import java.io.IOException;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.HashMap;
@@ -28,7 +30,7 @@ public class IndexDoc {
 		
 	}*/
 
-	public void recovery( String mot,ArrayList<Link>  arr) throws ElasticsearchException, IOException{
+	public void recovery( String mot,ArrayList<Link>  arr) throws IOException, JSONException{
 
      //verifier si tableau est vide
 		
@@ -39,16 +41,18 @@ public class IndexDoc {
 		    
 		    for(int i=0; i<arr.size(); i++)
 		    {
+		    	
+		    	// System.out.println(arr.get(i).getDesc().toString().replaceAll("\"", "_"));
 		    	 IndexResponse response = client.prepareIndex("test", "pageweb",""+(i+1)+"")
-		    			    .setSource(putJsonDocument( arr.get(i).getTitle(),arr.get(i).getDesc(),arr.get(i).getUrlString(),arr.get(i).getContent()
+		    			    .setSource(putJsonDocument( arr.get(i).getTitle(),arr.get(i).getDesc(),arr.get(i).getUrlString(),""
 		    			    		)).execute().actionGet();
 		    }
 		
 		     
 		      System.out.println("Documents indexés");
 		      
-		      Handling Filter = new Handling();
-		      Filter.filter(mot);
+		      Handling filter1 = new Handling();
+		      filter1.filter(mot);
 		
     }
     

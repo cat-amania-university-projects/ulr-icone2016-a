@@ -26,234 +26,236 @@ import java.util.*;
 
 public class Link {
     // donnees et methodes pour l'URL elle-meme (en tant qu'"addresse web")
+	protected int reference = 0;
+	protected String urlString = null;
+	protected URL url = null;
+	protected boolean isAllowedToVisit;
+	protected boolean isCheckedForPermission = false;
+	protected boolean isVisited = false;
 
-    protected int reference = 0;
-    protected String urlString = null;
-    protected URL url = null;
-    protected boolean isAllowedToVisit;
-    protected boolean isCheckedForPermission = false;
-    protected boolean isVisited = false;
+	public Link(String urlString) {
+		this.urlString = urlString;
+		this.computeURL();
+	}
 
-    public Link(String urlString) {
-        this.urlString = urlString;
-        this.computeURL();
-    }
+	private void computeURL() {
+		try {
+			url = new URL(urlString);
+		} catch (MalformedURLException e) {
+			// petit probleme
+		}
+	}
 
-    private void computeURL() {
-        try {
-            url = new URL(urlString);
-        } catch (MalformedURLException e) {
-	    // petit probleme
-        }
-    }
+	public URL getURL() {
+		return this.url;
+	}
 
-    public URL getURL() {
-        return this.url;
-    }
+	public int getDepth() {
+		return this.reference;
+	}
 
-    public int getDepth() {
-        return this.reference;
-    }
+	public boolean isAllowedToVisit() {
+		return isAllowedToVisit;
+	}
 
-    public boolean isAllowedToVisit() {
-        return isAllowedToVisit;
-    }
+	public void setAllowedToVisit(boolean isAllowedToVisit) {
+		this.isAllowedToVisit = isAllowedToVisit;
+		this.isCheckedForPermission = true;
+	}
 
-    public void setAllowedToVisit(boolean isAllowedToVisit) {
-        this.isAllowedToVisit = isAllowedToVisit;
-        this.isCheckedForPermission = true;
-    }
+	public boolean isCheckedForPermission() {
+		return isCheckedForPermission;
+	}
 
-    public boolean isCheckedForPermission() {
-        return isCheckedForPermission;
-    }
+	public boolean isVisited() {
+		return isVisited;
+	}
 
-    public boolean isVisited() {
-        return isVisited;
-    }
+	public void setIsVisited() {
+		this.isVisited = true;
+	}
 
-    public void setIsVisited() {
-        this.isVisited = true;
-    }
+	public String getUrlString() {
+		return this.urlString;
+	}
 
-    public String getUrlString() {
-        return this.urlString;
-    }
-        public int getReference() {
-        return reference;
-    }
+	public int getReference() {
+		return reference;
+	}
 
-    public void setReference(int reference) {
-        this.reference = reference;
-    }
+	public void setReference(int reference) {
+		this.reference = reference;
+	}
 
-    public void setUrl(URL url) {
-        this.url = url;
-    }
+	public void setUrl(URL url) {
+		this.url = url;
+	}
 
-    public boolean isIsAllowedToVisit() {
-        return isAllowedToVisit;
-    }
+	public boolean isIsAllowedToVisit() {
+		return isAllowedToVisit;
+	}
 
-    public void setIsAllowedToVisit(boolean isAllowedToVisit) {
-        this.isAllowedToVisit = isAllowedToVisit;
-    }
+	public void setIsAllowedToVisit(boolean isAllowedToVisit) {
+		this.isAllowedToVisit = isAllowedToVisit;
+	}
 
-    public boolean isIsCheckedForPermission() {
-        return isCheckedForPermission;
-    }
+	public boolean isIsCheckedForPermission() {
+		return isCheckedForPermission;
+	}
 
-    public void setIsCheckedForPermission(boolean isCheckedForPermission) {
-        this.isCheckedForPermission = isCheckedForPermission;
-    }
+	public void setIsCheckedForPermission(boolean isCheckedForPermission) {
+		this.isCheckedForPermission = isCheckedForPermission;
+	}
 
-    public boolean isIsVisited() {
-        return isVisited;
-    }
+	public boolean isIsVisited() {
+		return isVisited;
+	}
 
-    public void setIsVisited(boolean isVisited) {
-        this.isVisited = isVisited;
-    }
+	public void setIsVisited(boolean isVisited) {
+		this.isVisited = isVisited;
+	}
 
-    public String getHtmlText() {
-        return htmlText;
-    }
+	public String getHtmlText() {
+		return htmlText;
+	}
 
-    public void setHtmlText(String htmlText) {
-        this.htmlText = htmlText;
-    }
+	public void setHtmlText(String htmlText) {
+		this.htmlText = htmlText;
+	}
 
-    public Document getHtmlJsoupDoc() {
-        return htmlJsoupDoc;
-    }
+	public Document getHtmlJsoupDoc() {
+		return htmlJsoupDoc;
+	}
 
-    public void setHtmlJsoupDoc(Document htmlJsoupDoc) {
-        this.htmlJsoupDoc = htmlJsoupDoc;
-    }
+	public void setHtmlJsoupDoc(Document htmlJsoupDoc) {
+		this.htmlJsoupDoc = htmlJsoupDoc;
+	}
 
-    public String getDesc() {
-        return desc;
-    }
+	public String getDesc() {
+		return desc;
+	}
 
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
 
-    public List<String> getLinkList() {
-        return linkList;
-    }
+	public List<String> getLinkList() {
+		return linkList;
+	}
 
-    public void setLinkList(List<String> linkList) {
-        this.linkList = linkList;
-    }
+	public void setLinkList(List<String> linkList) {
+		this.linkList = linkList;
+	}
 
-    @Override
-    public String toString() {
-        return this.urlString + " [reference=" + reference + " visit="
-                + this.isAllowedToVisit + " check="
-                + this.isCheckedForPermission + "]";
-    }
+	@Override
+	public String toString() {
+		return this.urlString + " [reference=" + reference + " visit=" + this.isAllowedToVisit + " check="
+				+ this.isCheckedForPermission + "]";
+	}
 
-    @Override
-    public int hashCode() {
-        return this.urlString.hashCode();
-    }
+	@Override
+	public int hashCode() {
+		return this.urlString.hashCode();
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        return obj.hashCode() == this.hashCode();
-    }
 
-    // donnees et methodes concernant le contenu telecharge depuis l'URL
 
-    private String       htmlText;
-    private Document     htmlJsoupDoc;
-    private String       niceText;  // contient le contenu du body de l'url pars�e
-    private String       title;
-    private String       desc;
+	// donnees et methodes concernant le contenu telecharge depuis l'URL
 
-    public void setUrlString(String urlString) {
-        this.urlString = urlString;
-    }
+	private String htmlText;
+	private Document htmlJsoupDoc;
+	private String niceText; // contient le contenu du body de l'url parsée
+	private String title;
+	private String desc;
 
-    public void setNiceText(String niceText) {
-        this.niceText = niceText;
-    }
+	public void setUrlString(String urlString) {
+		this.urlString = urlString;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-   
-    private List<String> linkList;
+	public void setNiceText(String niceText) {
+		this.niceText = niceText;
+	}
 
-    public String getNiceText() {
-	return(niceText);
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public String getTitle() {
-	return(title);
-    }
+	private List<String> linkList;
 
-    public List<String> getLinks() {
-	return(linkList);
-    }
+	public String getNiceText() {
+		return (niceText);
+	}
 
-    public void setUrlContent(String htmlText) {
-	this . htmlText = htmlText;
-	this.htmlJsoupDoc = Jsoup.parse(htmlText);
-	niceText        = htmlJsoupDoc.body().text();
-    }
-    
-    public String getContent() throws IOException {
-    String text= new String();
-    text="";
-    //this.verifieValiditeUrl(); // ici on vrifie la validit� de l'url
-    //if (this.isAllowedToVisit == false){return " chaine vide ";}
-    if(this.urlString . startsWith("http://") || this.urlString.startsWith("https://"))
-    {
-        text=getHTML(urlString);
-    }
-    else 
-    {
-        this.setUrlString("https://"+urlString);
-    }
-    setUrlContent(text);
-        return this.niceText;
+	public String getTitle() {
+		return (title);
+	}
 
-    }
-    public String getHTML(String urlToRead) {
-      URL url; // l'url a lire
-      HttpURLConnection conn; // la connexion a la page web
-      BufferedReader rd; // utilis� pour afficher le contenu de la page web
-      String line; // une ligne de la page web
-      String result = ""; // la chaine qui contient le contenu
-      try {
-         url = new URL(urlToRead);
-         conn = (HttpURLConnection) url.openConnection();
-         conn.setRequestMethod("GET");
-         rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-         while ((line = rd.readLine()) != null) {
-            result += line;
-         }
-         rd.close();
-      } catch (Exception e) {
-         e.printStackTrace();
-      }
-      return result;
-   }
-    /*Cette methode permet de tester la validit� d'une URL
-    si celle-ci est valide on met sa variable isAllowToVisit � true
-     */
-    private void verifieValiditeUrl() throws MalformedURLException, IOException{
-		HttpURLConnection conn = (HttpURLConnection) new URL(this.url.toString()).openConnection();
-		conn.connect();
-		if(conn.getResponseCode() == HttpURLConnection.HTTP_CLIENT_TIMEOUT){
-                if( conn.getResponseCode() == HttpURLConnection.HTTP_OK ){
-                    this.setAllowedToVisit(true);
-                }
-}
-    }
+	public List<String> getLinks() {
+		return (linkList);
+	}
 
-    
-    
+	/*public void setUrlContent(String htmlText) {
+		this.htmlText = htmlText;
+		this.htmlJsoupDoc = Jsoup.parse(htmlText);
+		niceText = htmlJsoupDoc.body().text();
+	}*/
+
+	/*public String getContent() throws IOException {
+		String text = new String();
+		text = "";
+		// this.verifieValiditeUrl(); // ici on vrifie la validité de l'url
+		// if (this.isAllowedToVisit == false){return " chaine vide ";}
+		if (this.urlString.startsWith("http://") || this.urlString.startsWith("https://")) {
+			text = getHTML(urlString);
+		} else {
+			this.setUrlString("https://" + urlString);
+		}
+		setUrlContent(text);
+		return this.niceText;
+
+	}
+*/
+	/*public String getHTML(String urlToRead) {
+		URL url; // l'url a lire
+		HttpURLConnection conn; // la connexion a la page web
+		BufferedReader rd; // utilisé pour afficher le contenu de la page web
+		String line; // une ligne de la page web
+		String result = ""; // la chaine qui contient le contenu
+		try {
+			url = new URL(urlToRead);
+			conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			while ((line = rd.readLine()) != null) {
+				result += line;
+			}
+			rd.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+*/
+	/*
+	 * Cette methode permet de tester la validité d'une URL si celle-ci est
+	 * valide on met sa variable isAllowToVisit à true
+	 */
+	
+	@Override
+	public boolean equals(Object obj){
+		Boolean equal = false;
+		if (getClass()!=obj.getClass()){
+			equal= false;
+		}else {
+			Link l1=(Link)obj;
+			if(this.getUrlString()==l1.getUrlString()){
+				
+				equal= true;
+			}
+			
+		}
+		
+		return equal;
+	}
+
 }

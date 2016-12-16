@@ -32,11 +32,9 @@ public class Google extends Engine {
 	@Override
 	void connexion(String query) {
 		this.setName("https://www.google.com/search?q=");
-		query = this.getName() + query+"&num=50";
+		query = this.getName() + query + "&num=10";
 		try {
-
 			this.document = Jsoup.connect(query).userAgent("Mozilla").ignoreHttpErrors(true).timeout(0).get();
-
 		} catch (IOException ex) {
 			Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -46,30 +44,34 @@ public class Google extends Engine {
 	ArrayList<Link> getResult(String query) throws IOException {
 		int i = 0;
 		this.connexion(query);
-		// Elements links = this.document.select("div[class=result]");
 		Elements links = this.document.select("div[class=g]");
+		if(links != null){
+			for (Element link : links) {
 
-		for (Element link : links) {
-			
-			String title = link.select("h3[class=r]").text();
+				String title = link.select("h3[class=r]").text();
 
-			String url = link.select("h3[class=r] > a").attr("href");
-			String lien = "";
-			if(url != null && !url.equals("")){
-				lien = url.substring(7, url.indexOf("&"));
-				Elements bodies = link.select("span[class=st]");
-				String description = bodies.text();
+				String url = link.select("h3[class=r] > a").attr("href");
+				String lien = "";
+				if (url != null && !url.equals("")) {
+					lien = url.substring(7, url.indexOf("&"));
+					if(lien.startsWith("http")){
+						Elements bodies = link.select("span[class=st]");
+						String description = bodies.text();			
+						this.saveLinksDescTitle(lien, title, description, i);
+						i++;
+					}
 
-				this.saveLinksDescTitle(lien, title, description, i);
-
-			i++;
+				}
+			}
 		}
-		}
+
+		
+		//System.out.println("taille de la liste Google : "+this.linklist.size());
+
 
 		return this.linklist;
 
 	}
-		
 
 	String getUrlContent(String query) {
 		String content = null;
@@ -83,6 +85,5 @@ public class Google extends Engine {
 		}
 		return content;
 	}
-
 }
 
